@@ -1,22 +1,30 @@
 import React from 'react'
-import { Button } from '@material-ui/core';
+import { Paper, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TextInput from './TextInput';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  form: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
       width: 250,
     },
+    '& .MuiButton-root': {
+      margin: theme.spacing(1),
+      width: 250,
+    }
+  },
+  paper: {
+    display: 'inline-block',
   },
 }))
 
 export default function FeedbackForm() {
 
   const classes = useStyles()
-
-  const validation = {
+  const paperElevation = 4
+  
+  const validationMask = {
     name: new RegExp(/^[^"?!0-9<>()[\]/\\|.,;:\s@#$%^&*+=]*$/),
     phone: new RegExp(/^\+?[\d]{1,}$/),
     email: new RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/)
@@ -42,13 +50,15 @@ export default function FeedbackForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={classes.root}>
-      <TextInput label="Имя" id="name" required={true} validation={validation.name} onInput={onInput} />
-      <TextInput label="Фамилия" id="surname" required={true} validation={validation.name} onInput={onInput} />
-      <TextInput label="Отчество" id="fathername" required={false} validation={validation.name} onInput={onInput} />
-      <TextInput label="Телефон" id="phone" required={true} validation={validation.phone} onInput={onInput} />
-      <TextInput label='Email' id="email" required={true} validation={validation.email} onInput={onInput} />
-      <Button variant="contained" type="submit" >Submit</Button>
-    </form>
+    <Paper className={classes.paper} elevation={paperElevation}>
+      <form onSubmit={handleSubmit} className={classes.form}>
+        <TextInput label="Имя" id="name" required={true} validation={validationMask.name} onInput={onInput} />
+        <TextInput label="Фамилия" id="surname" required={true} validation={validationMask.name} onInput={onInput} />
+        <TextInput label="Отчество" id="fathername" required={false} validation={validationMask.name} onInput={onInput} />
+        <TextInput label="Телефон" id="phone" required={true} validation={validationMask.phone} onInput={onInput} />
+        <TextInput label='Email' id="email" required={true} validation={validationMask.email} onInput={onInput} />
+        <Button variant="contained" type="submit">Submit</Button>
+      </form>
+    </Paper>
   );
 }
